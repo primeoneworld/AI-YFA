@@ -1,0 +1,294 @@
+import React, { useState } from 'react';
+import { Vote, Users, Clock, CheckCircle, XCircle, AlertCircle, TrendingUp } from 'lucide-react';
+
+interface GovernanceProps {
+  darkMode: boolean;
+}
+
+export default function Governance({ darkMode }: GovernanceProps) {
+  const [userYFABalance] = useState(1245.67);
+  const [votingPower] = useState(0.034); // 3.4% of total voting power
+
+  const proposals = [
+    {
+      id: 1,
+      title: 'Increase AI Optimization Frequency',
+      description: 'Propose to increase the frequency of AI portfolio rebalancing from daily to every 6 hours to maximize yield opportunities.',
+      status: 'active',
+      timeLeft: '5 days, 14 hours',
+      totalVotes: 2456789,
+      yesVotes: 1847592,
+      noVotes: 456123,
+      abstainVotes: 153074,
+      quorum: 85.2,
+      creator: 'cosmos1ab...xy9z',
+      createdAt: '2025-01-08',
+      userVoted: false,
+      category: 'Protocol Enhancement'
+    },
+    {
+      id: 2,
+      title: 'Add Support for Terra Luna Classic',
+      description: 'Integrate Terra Luna Classic pools into the AI-YFA ecosystem to expand yield farming opportunities.',
+      status: 'active',
+      timeLeft: '2 days, 8 hours',
+      totalVotes: 1893456,
+      yesVotes: 967234,
+      noVotes: 734521,
+      abstainVotes: 191701,
+      quorum: 67.8,
+      creator: 'cosmos1cd...mn8p',
+      createdAt: '2025-01-05',
+      userVoted: true,
+      userVote: 'yes',
+      category: 'Chain Integration'
+    },
+    {
+      id: 3,
+      title: 'Implement Emergency Pause Mechanism',
+      description: 'Add a community-controlled emergency pause feature for AI trading during extreme market volatility.',
+      status: 'passed',
+      timeLeft: 'Ended',
+      totalVotes: 3245678,
+      yesVotes: 2456789,
+      noVotes: 567432,
+      abstainVotes: 221457,
+      quorum: 92.1,
+      creator: 'cosmos1ef...qr3t',
+      createdAt: '2024-12-28',
+      userVoted: true,
+      userVote: 'yes',
+      category: 'Security'
+    },
+    {
+      id: 4,
+      title: 'Reduce Platform Fees',
+      description: 'Lower the platform fee from 2% to 1.5% to attract more users and increase TVL.',
+      status: 'rejected',
+      timeLeft: 'Ended',
+      totalVotes: 1567890,
+      yesVotes: 634567,
+      noVotes: 789456,
+      abstainVotes: 143867,
+      quorum: 56.3,
+      creator: 'cosmos1gh...uv7w',
+      createdAt: '2024-12-20',
+      userVoted: false,
+      category: 'Economics'
+    }
+  ];
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'active': return 'text-blue-500 bg-blue-100';
+      case 'passed': return 'text-green-500 bg-green-100';
+      case 'rejected': return 'text-red-500 bg-red-100';
+      default: return 'text-gray-500 bg-gray-100';
+    }
+  };
+
+  const getStatusIcon = (status: string) => {
+    switch (status) {
+      case 'active': return Clock;
+      case 'passed': return CheckCircle;
+      case 'rejected': return XCircle;
+      default: return AlertCircle;
+    }
+  };
+
+  const getCategoryColor = (category: string) => {
+    const colors = {
+      'Protocol Enhancement': 'bg-purple-100 text-purple-800',
+      'Chain Integration': 'bg-blue-100 text-blue-800',
+      'Security': 'bg-red-100 text-red-800',
+      'Economics': 'bg-green-100 text-green-800'
+    };
+    return colors[category] || 'bg-gray-100 text-gray-800';
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+        <div>
+          <h2 className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>Governance</h2>
+          <p className={`${darkMode ? 'text-gray-400' : 'text-gray-600'} mt-1`}>
+            Shape the future of AI-YFA with your $YFA tokens
+          </p>
+        </div>
+        
+        <button className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-3 rounded-lg hover:shadow-lg transition-all">
+          Create Proposal
+        </button>
+      </div>
+
+      {/* Voting Power Card */}
+      <div className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} rounded-xl p-6 border`}>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="text-center">
+            <div className="flex items-center justify-center mb-2">
+              <Vote className={`w-6 h-6 ${darkMode ? 'text-blue-400' : 'text-blue-500'} mr-2`} />
+              <h3 className={`text-lg font-semibold ${darkMode ? 'text-white' : 'text-gray-900'}`}>Your Voting Power</h3>
+            </div>
+            <p className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>{(votingPower * 100).toFixed(3)}%</p>
+            <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>{userYFABalance.toLocaleString()} YFA tokens</p>
+          </div>
+          
+          <div className="text-center">
+            <div className="flex items-center justify-center mb-2">
+              <Users className={`w-6 h-6 ${darkMode ? 'text-green-400' : 'text-green-500'} mr-2`} />
+              <h3 className={`text-lg font-semibold ${darkMode ? 'text-white' : 'text-gray-900'}`}>Total Voters</h3>
+            </div>
+            <p className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>8,247</p>
+            <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>Active governance participants</p>
+          </div>
+          
+          <div className="text-center">
+            <div className="flex items-center justify-center mb-2">
+              <TrendingUp className={`w-6 h-6 ${darkMode ? 'text-purple-400' : 'text-purple-500'} mr-2`} />
+              <h3 className={`text-lg font-semibold ${darkMode ? 'text-white' : 'text-gray-900'}`}>Total Supply</h3>
+            </div>
+            <p className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>100M</p>
+            <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>YFA tokens in circulation</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Proposals */}
+      <div className="space-y-4">
+        {proposals.map((proposal) => {
+          const StatusIcon = getStatusIcon(proposal.status);
+          const yesPercentage = (proposal.yesVotes / proposal.totalVotes) * 100;
+          const noPercentage = (proposal.noVotes / proposal.totalVotes) * 100;
+          const abstainPercentage = (proposal.abstainVotes / proposal.totalVotes) * 100;
+          
+          return (
+            <div key={proposal.id} className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} rounded-xl p-6 border`}>
+              <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 mb-4">
+                <div className="flex-1">
+                  <div className="flex items-center gap-3 mb-2">
+                    <span className={`px-3 py-1 rounded-full text-xs font-medium ${getCategoryColor(proposal.category)}`}>
+                      {proposal.category}
+                    </span>
+                    <div className={`flex items-center px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(proposal.status)}`}>
+                      <StatusIcon size={12} className="mr-1" />
+                      {proposal.status.toUpperCase()}
+                    </div>
+                    {proposal.userVoted && (
+                      <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-medium">
+                        You voted: {proposal.userVote?.toUpperCase()}
+                      </span>
+                    )}
+                  </div>
+                  
+                  <h3 className={`text-xl font-semibold ${darkMode ? 'text-white' : 'text-gray-900'} mb-2`}>
+                    #{proposal.id} {proposal.title}
+                  </h3>
+                  
+                  <p className={`${darkMode ? 'text-gray-400' : 'text-gray-600'} mb-3`}>
+                    {proposal.description}
+                  </p>
+                  
+                  <div className="flex items-center gap-4 text-sm">
+                    <span className={`${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                      Created by: {proposal.creator}
+                    </span>
+                    <span className={`${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                      {proposal.createdAt}
+                    </span>
+                    <span className={`${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                      Quorum: {proposal.quorum}%
+                    </span>
+                  </div>
+                </div>
+                
+                <div className="text-right min-w-[150px]">
+                  <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'} mb-1`}>
+                    {proposal.status === 'active' ? 'Time left' : 'Final result'}
+                  </p>
+                  <p className={`font-semibold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                    {proposal.timeLeft}
+                  </p>
+                </div>
+              </div>
+              
+              {/* Voting Results */}
+              <div className="space-y-3">
+                <div className="flex justify-between text-sm mb-2">
+                  <span className={`${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                    Total votes: {proposal.totalVotes.toLocaleString()}
+                  </span>
+                </div>
+                
+                <div className="space-y-2">
+                  {/* Yes votes */}
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-2">
+                      <div className="w-4 h-4 bg-green-500 rounded"></div>
+                      <span className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                        Yes ({yesPercentage.toFixed(1)}%)
+                      </span>
+                    </div>
+                    <span className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                      {proposal.yesVotes.toLocaleString()}
+                    </span>
+                  </div>
+                  <div className={`w-full ${darkMode ? 'bg-gray-700' : 'bg-gray-200'} rounded-full h-2`}>
+                    <div className="bg-green-500 h-2 rounded-full" style={{ width: `${yesPercentage}%` }}></div>
+                  </div>
+                  
+                  {/* No votes */}
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-2">
+                      <div className="w-4 h-4 bg-red-500 rounded"></div>
+                      <span className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                        No ({noPercentage.toFixed(1)}%)
+                      </span>
+                    </div>
+                    <span className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                      {proposal.noVotes.toLocaleString()}
+                    </span>
+                  </div>
+                  <div className={`w-full ${darkMode ? 'bg-gray-700' : 'bg-gray-200'} rounded-full h-2`}>
+                    <div className="bg-red-500 h-2 rounded-full" style={{ width: `${noPercentage}%` }}></div>
+                  </div>
+                  
+                  {/* Abstain votes */}
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-2">
+                      <div className="w-4 h-4 bg-gray-500 rounded"></div>
+                      <span className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                        Abstain ({abstainPercentage.toFixed(1)}%)
+                      </span>
+                    </div>
+                    <span className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                      {proposal.abstainVotes.toLocaleString()}
+                    </span>
+                  </div>
+                  <div className={`w-full ${darkMode ? 'bg-gray-700' : 'bg-gray-200'} rounded-full h-2`}>
+                    <div className="bg-gray-500 h-2 rounded-full" style={{ width: `${abstainPercentage}%` }}></div>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Voting Actions */}
+              {proposal.status === 'active' && !proposal.userVoted && (
+                <div className="flex space-x-3 mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+                  <button className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition-colors">
+                    Vote Yes
+                  </button>
+                  <button className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition-colors">
+                    Vote No
+                  </button>
+                  <button className={`${darkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-300 hover:bg-gray-400'} text-white px-4 py-2 rounded-lg transition-colors`}>
+                    Abstain
+                  </button>
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
