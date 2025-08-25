@@ -179,4 +179,170 @@ export default function Governance({ darkMode }: GovernanceProps) {
           <div className="text-center">
             <div className="flex items-center justify-center mb-2">
               <Users className={`w-6 h-6 ${darkMode ? 'text-green-400' : 'text-green-500'} mr-2`} />
-              <h3 className={`text-lg font-semibold ${darkMode ?
+              <h3 className={`text-lg font-semibold ${darkMode ? 'text-white' : 'text-gray-900'}`}>Total Voters</h3>
+            </div>
+            <p className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>8,247</p>
+            <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>Active governance participants</p>
+          </div>
+          
+          <div className="text-center">
+            <div className="flex items-center justify-center mb-2">
+              <TrendingUp className={`w-6 h-6 ${darkMode ? 'text-purple-400' : 'text-purple-500'} mr-2`} />
+              <h3 className={`text-lg font-semibold ${darkMode ? 'text-white' : 'text-gray-900'}`}>Total Supply</h3>
+            </div>
+            <p className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>100M</p>
+            <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>YFA tokens in circulation</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Proposals */}
+      <div className="space-y-4">
+        {proposals.map((proposal) => {
+          const StatusIcon = getStatusIcon(proposal.status);
+          const yesPercentage = (proposal.yesVotes / proposal.totalVotes) * 100;
+          const noPercentage = (proposal.noVotes / proposal.totalVotes) * 100;
+          const abstainPercentage = (proposal.abstainVotes / proposal.totalVotes) * 100;
+          
+          return (
+            <div key={proposal.id} className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} rounded-xl p-6 border`}>
+              <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 mb-4">
+                <div className="flex-1">
+                  <div className="flex items-center gap-3 mb-2">
+                    <span className={`px-3 py-1 rounded-full text-xs font-medium ${getCategoryColor(proposal.category)}`}>
+                      {proposal.category}
+                    </span>
+                    <div className={`flex items-center px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(proposal.status)}`}>
+                      <StatusIcon size={12} className="mr-1" />
+                      {proposal.status.toUpperCase()}
+                    </div>
+                    {proposal.userVoted && (
+                      <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-medium">
+                        You voted: {proposal.userVote?.toUpperCase()}
+                      </span>
+                    )}
+                  </div>
+                  
+                  <h3 className={`text-xl font-semibold ${darkMode ? 'text-white' : 'text-gray-900'} mb-2`}>
+                    #{proposal.id} {proposal.title}
+                  </h3>
+                  
+                  <p className={`${darkMode ? 'text-gray-400' : 'text-gray-600'} mb-3`}>
+                    {proposal.description}
+                  </p>
+                  
+                  <div className="flex items-center gap-4 text-sm">
+                    <span className={`${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                      Created by: {proposal.creator}
+                    </span>
+                    <span className={`${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                      {proposal.createdAt}
+                    </span>
+                    <span className={`${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                      Quorum: {proposal.quorum}%
+                    </span>
+                  </div>
+                </div>
+                
+                <div className="text-right min-w-[150px]">
+                  <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'} mb-1`}>
+                    {proposal.status === 'active' ? 'Time left' : 'Final result'}
+                  </p>
+                  <p className={`font-semibold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                    {proposal.timeLeft}
+                  </p>
+                </div>
+              </div>
+              
+              {/* Voting Results */}
+              <div className="space-y-3">
+                <div className="flex justify-between text-sm mb-2">
+                  <span className={`${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                    Total votes: {proposal.totalVotes.toLocaleString()}
+                  </span>
+                </div>
+                
+                <div className="space-y-2">
+                  {/* Yes votes */}
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-2">
+                      <div className="w-4 h-4 bg-green-500 rounded"></div>
+                      <span className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                        Yes ({yesPercentage.toFixed(1)}%)
+                      </span>
+                    </div>
+                    <span className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                      {proposal.yesVotes.toLocaleString()}
+                    </span>
+                  </div>
+                  <div className={`w-full ${darkMode ? 'bg-gray-700' : 'bg-gray-200'} rounded-full h-2`}>
+                    <div className="bg-green-500 h-2 rounded-full" style={{ width: `${yesPercentage}%` }}></div>
+                  </div>
+                  
+                  {/* No votes */}
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-2">
+                      <div className="w-4 h-4 bg-red-500 rounded"></div>
+                      <span className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                        No ({noPercentage.toFixed(1)}%)
+                      </span>
+                    </div>
+                    <span className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                      {proposal.noVotes.toLocaleString()}
+                    </span>
+                  </div>
+                  <div className={`w-full ${darkMode ? 'bg-gray-700' : 'bg-gray-200'} rounded-full h-2`}>
+                    <div className="bg-red-500 h-2 rounded-full" style={{ width: `${noPercentage}%` }}></div>
+                  </div>
+                  
+                  {/* Abstain votes */}
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-2">
+                      <div className="w-4 h-4 bg-gray-500 rounded"></div>
+                      <span className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                        Abstain ({abstainPercentage.toFixed(1)}%)
+                      </span>
+                    </div>
+                    <span className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                      {proposal.abstainVotes.toLocaleString()}
+                    </span>
+                  </div>
+                  <div className={`w-full ${darkMode ? 'bg-gray-700' : 'bg-gray-200'} rounded-full h-2`}>
+                    <div className="bg-gray-500 h-2 rounded-full" style={{ width: `${abstainPercentage}%` }}></div>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Voting Actions */}
+              {proposal.status === 'active' && !proposal.userVoted && (
+                <div className="flex space-x-3 mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+                  <button 
+                    onClick={() => handleVote(proposal.id, 'yes')}
+                    disabled={isLoading || !isConnected}
+                    className={`bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition-colors disabled:opacity-50`}
+                  >
+                    Vote Yes
+                  </button>
+                  <button 
+                    onClick={() => handleVote(proposal.id, 'no')}
+                    disabled={isLoading || !isConnected}
+                    className={`bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition-colors disabled:opacity-50`}
+                  >
+                    Vote No
+                  </button>
+                  <button 
+                    onClick={() => handleVote(proposal.id, 'abstain')}
+                    disabled={isLoading || !isConnected}
+                    className={`${darkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-300 hover:bg-gray-400'} text-white px-4 py-2 rounded-lg transition-colors disabled:opacity-50`}
+                  >
+                    Abstain
+                  </button>
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
