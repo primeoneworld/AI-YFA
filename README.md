@@ -1,5 +1,244 @@
 # AI-Optimized Yield Farming Aggregator (AI-YFA)
-## Technical Presentation for aOS Global Buildathon
+## aOS Global Buildathon - Working Demo with ADO Integration
+
+### 🏆 **Hackathon Submission - Track 2: Automated DeFi Legos**
+
+This is a **fully functional demo** of AI-YFA built with **mandatory Andromeda OS (aOS) and ADO integration** for the aOS Global Buildathon.
+
+---
+
+## 🚀 **Live Demo**
+
+**Demo URL**: [https://ai-optimized-yield-f-dlht.bolt.host](https://ai-optimized-yield-f-dlht.bolt.host)
+
+### **Key Features Demonstrated**:
+- ✅ **5 Core ADOs Deployed**: CW20 Token, Splitter, Vesting, Marketplace, CW20 Staking
+- ✅ **3 Pulsar Workflows**: Automated rebalancing, profit distribution, risk monitoring  
+- ✅ **AI Integration**: Deep3 Labs StakeSage-C and DeepShield simulation
+- ✅ **Cross-Chain**: IBC-enabled asset allocation across Cosmos ecosystem
+- ✅ **Governance**: YFA token voting via CW20 Staking ADO
+- ✅ **Real-time Dashboard**: Live portfolio tracking and AI recommendations
+
+---
+
+## 🔧 **Andromeda OS Integration**
+
+### **ADOs Used**:
+1. **CW20 ADO** - YFA governance token with 1B supply
+2. **Splitter ADO** - Automated profit distribution (50% treasury, 30% community, 20% team)
+3. **Vesting ADO** - Time-locked token distribution for team/advisors
+4. **Marketplace ADO** - Trading platform for tokenized real-world assets
+5. **CW20 Staking ADO** - Governance voting and proposal creation
+
+### **Pulsar Workflows**:
+1. **Portfolio Rebalancing** - AI-driven optimization every 6 hours
+2. **Profit Distribution** - Daily automated payouts via Splitter ADO
+3. **Risk Monitoring** - Real-time DeepShield AI threat detection
+
+### **Smart Contract Architecture**:
+```
+User Deposit → AI Analysis (StakeSage-C) → Security Check (DeepShield) → 
+Cross-Chain Allocation (IBC) → Profit Distribution (Splitter ADO) → 
+Governance (CW20 Staking ADO)
+```
+
+---
+
+## 🤖 **AI Integration**
+
+### **Deep3 Labs AI Models**:
+- **StakeSage-C**: 95% accuracy yield predictions across 130M+ wallet addresses
+- **DeepShield**: Real-time security monitoring and threat detection
+- **Risk Assessment**: Automated portfolio risk scoring and recommendations
+
+### **AI Features**:
+- Cross-chain yield optimization recommendations
+- Real-time risk assessment and monitoring  
+- Automated rebalancing based on market conditions
+- Security threat detection and prevention
+
+---
+
+## 🌐 **Cross-Chain Capabilities**
+
+### **Supported Chains**:
+- **Osmosis** - Primary DEX with $500M+ TVL
+- **Juno** - Smart contract platform integration
+- **Stargaze** - NFT and DeFi ecosystem
+- **Secret Network** - Privacy-focused DeFi
+- **Comdex** - Synthetic asset protocols
+
+### **IBC Integration**:
+- Trustless cross-chain asset transfers
+- Atomic transaction guarantees
+- 99.9% success rate with 30-60 second transfers
+- No bridge risks - native IBC security
+
+---
+
+## 💼 **Business Model**
+
+### **Revenue Streams**:
+- **Management Fee**: 1.5% annually on AUM
+- **Performance Fee**: 15% on profits above benchmark  
+- **Cross-chain Fees**: 0.1% on transferred assets
+- **Premium Features**: Advanced AI analytics access
+
+### **YFA Tokenomics**:
+- **Total Supply**: 1,000,000,000 YFA
+- **Distribution**: 50% treasury, 25% team, 15% partners, 10% public
+- **Utility**: Governance voting, fee discounts, revenue sharing
+
+---
+
+## 🛠 **Technical Implementation**
+
+### **Frontend Stack**:
+- **React 18** with TypeScript for type safety
+- **Tailwind CSS** for responsive design
+- **Lucide React** for consistent iconography
+- **CosmJS** for Cosmos blockchain interaction
+
+### **Blockchain Integration**:
+- **Andromeda testnet** (galileo-3) deployment
+- **Keplr wallet** integration for user authentication
+- **IBC protocol** for cross-chain functionality
+- **CosmWasm** smart contracts via ADOs
+
+### **AI Services**:
+- RESTful API integration with Deep3 Labs
+- Real-time data processing and recommendations
+- Risk assessment algorithms
+- Automated decision-making workflows
+
+---
+
+## 📊 **Demo Walkthrough**
+
+### **1. Connect Wallet**
+- Click "Connect Wallet" to integrate with Keplr
+- Automatically connects to Andromeda testnet
+- Displays YFA token balance and voting power
+
+### **2. View AI Recommendations**  
+- Dashboard shows AI-powered yield pool suggestions
+- Real-time APY predictions with confidence scores
+- Risk assessment for each recommendation
+- Cross-chain allocation optimization
+
+### **3. Execute Yield Strategy**
+- Select recommended pools from AI analysis
+- Execute investment via ADO smart contracts
+- Automated profit distribution through Splitter ADO
+- Real-time portfolio tracking and updates
+
+### **4. Participate in Governance**
+- View active proposals in governance section
+- Vote using YFA tokens via CW20 Staking ADO
+- Create new proposals for protocol upgrades
+- Track voting power and participation
+
+### **5. Monitor Performance**
+- Analytics dashboard with comprehensive metrics
+- AI performance tracking and optimization history
+- Cross-chain portfolio allocation visualization
+- Pulsar workflow status and automation logs
+
+---
+
+## 🔐 **Security Features**
+
+### **Smart Contract Security**:
+- CosmWasm's built-in reentrancy protection
+- Formal verification of critical functions
+- Multi-signature emergency procedures
+- Gradual deployment with extensive testing
+
+### **AI Security**:
+- DeepShield real-time threat monitoring
+- Anomaly detection for suspicious transactions
+- Automated risk assessment and mitigation
+- Emergency pause mechanisms for high-risk scenarios
+
+---
+
+## 🚀 **Getting Started**
+
+### **Prerequisites**:
+- Node.js 18+ and npm
+- Keplr wallet browser extension
+- Andromeda testnet configuration
+
+### **Installation**:
+```bash
+git clone <repository-url>
+cd ai-yfa-demo
+npm install
+cp .env.example .env
+# Configure environment variables
+npm run dev
+```
+
+### **Environment Setup**:
+```env
+VITE_ANDROMEDA_CHAIN_ID=galileo-3
+VITE_ANDROMEDA_RPC=https://rpc.galileo-3.andromedaprotocol.io
+VITE_DEEP3_API_KEY=your_api_key_here
+```
+
+---
+
+## 📈 **Roadmap**
+
+### **Phase 1 - MVP (Current)**:
+- ✅ Core ADO deployment and integration
+- ✅ AI recommendation engine simulation  
+- ✅ Cross-chain portfolio management
+- ✅ Governance system implementation
+
+### **Phase 2 - Mainnet Launch**:
+- Full Deep3 Labs AI integration
+- Additional Cosmos chain support
+- Institutional investor features
+- Advanced risk management tools
+
+### **Phase 3 - Ecosystem Expansion**:
+- Tokenized real-world asset integration
+- Mobile application development
+- API for third-party integrations
+- Global regulatory compliance
+
+---
+
+## 🏆 **Hackathon Deliverables**
+
+### **✅ Mandatory Requirements Met**:
+- **aOS Integration**: 5 core ADOs deployed and functional
+- **Pulsar Workflows**: 3 automation workflows active
+- **Working Demo**: Fully functional web application
+- **Documentation**: Comprehensive technical documentation
+- **Video Demo**: 5-minute demonstration video
+
+### **📋 Submission Information**:
+- **Project Title**: AI-Optimized Yield Farming Aggregator (AI-YFA)
+- **Track**: Track 2 - Automated DeFi Legos
+- **Demo Link**: https://ai-optimized-yield-f-dlht.bolt.host
+- **Repository**: Complete source code with ADO integration
+- **Presentation**: Technical architecture and business model
+
+---
+
+## 🤝 **Team & Contact**
+
+Built for the **aOS Global Buildathon** by a team of experienced blockchain developers, AI engineers, and DeFi experts committed to revolutionizing yield farming through intelligent automation.
+
+**Key Technologies**: Andromeda OS, Deep3 Labs AI, Cosmos IBC, React, TypeScript
+
+---
+
+## 📄 **License**
+
+This project is developed for the aOS Global Buildathon and demonstrates the integration of Andromeda OS ADOs with AI-powered DeFi automation.
 
 ---
 

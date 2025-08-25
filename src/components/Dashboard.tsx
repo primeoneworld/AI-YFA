@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { TrendingUp, TrendingDown, DollarSign, Zap, Shield, Globe, ArrowUpRight, ArrowDownRight, Bot } from 'lucide-react';
+import { useAndromeda } from '../hooks/useAndromeda';
+import { aiService } from '../services/aiService';
+import ADOStatus from './ADOStatus';
 
 interface DashboardProps {
   darkMode: boolean;
@@ -8,9 +11,13 @@ interface DashboardProps {
 export default function Dashboard({ darkMode }: DashboardProps) {
   const [totalValue, setTotalValue] = useState(12450.67);
   const [dailyChange, setDailyChange] = useState(156.23);
+  const [aiRecommendations, setAiRecommendations] = useState([]);
+  const [showADOStatus, setShowADOStatus] = useState(false);
+  
+  const { isConnected, address, yfaBalance, executeYieldStrategy, isLoading } = useAndromeda();
 
   // Simulate real-time updates
-  useEffect(() => range => {
+  useEffect(() => {
     const interval = setInterval(() => {
       const change = (Math.random() - 0.5) * 20;
       setTotalValue(prev => Math.max(0, prev + change));
@@ -20,10 +27,25 @@ export default function Dashboard({ darkMode }: DashboardProps) {
     return () => clearInterval(interval);
   }, []);
 
+  // Load AI recommendations
+  useEffect(() => {
+    const loadRecommendations = async () => {
+      try {
+        const recommendations = await aiService.getYieldRecommendations(totalValue, 'medium');
+        setAiRecommendations(recommendations.slice(0, 3));
+      } catch (error) {
+        console.error('Failed to load AI recommendations:', error);
+      }
+    };
+
+    if (isConnected) {
+      loadRecommendations();
+    }
+  }, [isConnected, totalValue]);
   const stats = [
     { label: 'Total Portfolio Value', value: `$${totalValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, change: `+${dailyChange.toFixed(2)}`, isPositive: dailyChange > 0, icon: DollarSign },
     { label: 'Average APY', value: '24.7%', change: '+2.1%', isPositive: true, icon: TrendingUp },
-    { label: 'Active Positions', value: '8', change: '+1', isPositive: true, icon: Zap },
+    { label: 'YFA Balance', value: isConnected ? parseFloat(yfaBalance || '0').toLocaleString() : '0', change: '+12', isPositive: true, icon: Zap },
     { label: 'Risk Score', value: '6.2/10', change: '-0.3', isPositive: false, icon: Shield },
   ];
 
@@ -43,6 +65,28 @@ export default function Dashboard({ darkMode }: DashboardProps) {
 
   return (
     <div className="space-y-6">
+      {/* Connection Status */}
+      {!isConnected && (
+        <div className={`${darkMode ? 'bg-yellow-900 border-yellow-700' : 'bg-yellow-50 border-yellow-200'} rounded-xl p-4 border`}>
+          <p className={`${darkMode ? 'text-yellow-300' : 'text-yellow-800'} text-center`}>
+            Connect your wallet to access AI-powered yield farming features
+          </p>
+        </div>
+      )}
+
+      {/* ADO Status Toggle */}
+      <div className="flex justify-center">
+        <button
+          onClick={() => setShowADOStatus(!showADOStatus)}
+          className={`px-4 py-2 rounded-lg ${darkMode ? 'bg-gray-800 text-gray-300 hover:bg-gray-700' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'} transition-colors`}
+        >
+          {showADOStatus ? 'Hide' : 'Show'} Andromeda OS Integration Status
+        </button>
+      </div>
+
+      {/* ADO Status */}
+      {showADOStatus && <ADOStatus darkMode={darkMode} />}
+
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {stats.map((stat, index) => (
@@ -78,20 +122,30 @@ export default function Dashboard({ darkMode }: DashboardProps) {
             </div>
           </div>
           <div className="space-y-4">
-            {topPools.slice(0, 3).map((pool, index) => (
+            {(aiRecommendations.length > 0 ? aiRecommendations : topPools.slice(0, 3)).map((pool, index) => (
               <div key={index} className={`flex items-center justify-between p-4 ${darkMode ? 'bg-gray-700' : 'bg-gray-50'} rounded-lg`}>
                 <div>
-                  <p className={`font-medium ${darkMode ? 'text-white' : 'text-gray-900'}`}>{pool.name}</p>
+                  <p className={`font-medium ${darkMode ? 'text-white' : 'text-gray-900'}`}>{pool.poolName || pool.name}</p>
                   <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>{pool.chain}</p>
+                  {pool.confidence && (
+                    <p className={`text-xs ${darkMode ? 'text-blue-400' : 'text-blue-600'}`}>
+                      AI Confidence: {(pool.confidence * 100).toFixed(1)}%
+                    </p>
+                  )}
                 </div>
                 <div className="text-right">
-                  <p className="text-green-500 font-semibold">{pool.apy}</p>
-                  <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>TVL: {pool.tvl}</p>
+                  <p className="text-green-500 font-semibold">{pool.predictedAPY ? `${pool.predictedAPY}%` : pool.apy}</p>
+                  <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                    {pool.allocation ? `Allocation: ${pool.allocation}%` : `TVL: ${pool.tvl}`}
+                  </p>
                 </div>
               </div>
             ))}
           </div>
-          <button className="w-full mt-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white py-2 px-4 rounded-lg hover:shadow-lg transition-all">
+          <button 
+            className="w-full mt-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white py-2 px-4 rounded-lg hover:shadow-lg transition-all disabled:opacity-50"
+            disabled={!isConnected || isLoading}
+          >
             View All Recommendations
           </button>
         </div>

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Search, Filter, Star, TrendingUp, AlertTriangle, Zap, Globe } from 'lucide-react';
+import { useAndromeda } from '../hooks/useAndromeda';
 
 interface YieldPoolsProps {
   darkMode: boolean;
@@ -9,6 +10,8 @@ export default function YieldPools({ darkMode }: YieldPoolsProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedChain, setSelectedChain] = useState('all');
   const [riskFilter, setRiskFilter] = useState('all');
+  
+  const { isConnected, executeYieldStrategy, isLoading } = useAndromeda();
 
   const pools = [
     {
@@ -122,6 +125,22 @@ export default function YieldPools({ darkMode }: YieldPoolsProps) {
     if (score >= 8.5) return 'text-green-500';
     if (score >= 7.5) return 'text-orange-500';
     return 'text-red-500';
+  };
+  const handleInvest = async (pool: any) => {
+    if (!isConnected) {
+      alert('Please connect your wallet first');
+      return;
+    }
+
+    try {
+      const amount = prompt('Enter investment amount (in USD):');
+      if (amount && parseFloat(amount) > 0) {
+        await executeYieldStrategy(amount, pool.id.toString());
+        alert(`Successfully invested $${amount} in ${pool.name} via Andromeda ADOs!`);
+      }
+    } catch (error) {
+      alert('Investment failed: ' + error.message);
+    }
   };
 
   return (
@@ -268,7 +287,11 @@ export default function YieldPools({ darkMode }: YieldPoolsProps) {
                     </div>
                   </td>
                   <td className="py-4 px-4">
-                    <button className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-lg text-sm transition-colors">
+                    <button 
+                      onClick={() => handleInvest(pool)}
+                      disabled={!isConnected || isLoading}
+                      className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-lg text-sm transition-colors disabled:opacity-50"
+                    >
                       Invest
                     </button>
                   </td>
